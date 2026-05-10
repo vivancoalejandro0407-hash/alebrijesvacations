@@ -415,14 +415,14 @@ footer{background:linear-gradient(135deg,#060D1F,#0d1a3a);border-top:1px solid r
     <div class="ch"><div class="ch-ring r-don"><img id="iDon" src="" alt="Donald"/></div><span class="ch-lbl">Donald</span></div>
     <div class="ch"><div class="ch-ring r-goo"><img id="iGoo" src="" alt="Goofy"/></div><span class="ch-lbl">Goofy</span></div>
   </div>
-  <div class="upload-zone" onclick="document.getElementById('fileInput').click();event.preventDefault();">
+  <label for="fileInput" class="upload-zone" style="cursor:pointer;display:block;">
     <div class="upload-ico">📸</div>
     <h3 class="upload-title">Sube la foto de tu familia</h3>
-    <p class="upload-sub">La IA de Anthropic coloca a tu familia junto a Mickey y sus amigos en el escenario mágico que elijas.</p>
-    <button class="btn-upload" onclick="document.getElementById('fileInput').click()">📸 &nbsp;Subir mi foto familiar</button>
+    <p class="upload-sub">La IA coloca a tu familia junto a Mickey y sus amigos en el escenario mágico que elijas.</p>
+    <div class="btn-upload" style="pointer-events:none;">📸 &nbsp;Subir mi foto familiar</div>
     <p class="upload-note">JPG, PNG o HEIC · Máx 10MB</p>
-  </div>
-  <input type="file" id="fileInput" accept="image/*" class="upload-real" onchange="handleFile(this)" style="display:none;"/>
+  </label>
+  <input type="file" id="fileInput" accept="image/*" onchange="handleFile(this)" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;"/>
   <button class="demo-link" onclick="fmGo(2)"><span class="demo-txt">¿No tienes foto a la mano? Prueba la experiencia demo →</span></button>
 </div>
 
@@ -479,7 +479,7 @@ footer{background:linear-gradient(135deg,#060D1F,#0d1a3a);border-top:1px solid r
   </div>
   <div class="ar">
     <button class="ab absh" onclick="shareResult()"><span class="abi">📤</span><span class="abl">Compartir</span></button>
-    <button class="ab abdl" onclick="fmGo(1)"><span class="abi">🔄</span><span class="abl">Otra foto</span></button>
+    <button class="ab abdl" onclick="downloadImg()"><span class="abi">⬇️</span><span class="abl">Descargar</span></button>
   </div>
   <div style="background:linear-gradient(145deg,#1E1B4B,#1a2050);border-radius:14px;border:1px solid rgba(139,92,246,.18);padding:1rem;display:flex;gap:11px;align-items:flex-start;margin-bottom:.85rem;">
     <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--pink));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">✈️</div>
@@ -792,32 +792,77 @@ function startLoading(){
 }
 
 async function callAnthropicAI(){
+  var imgData=uploadedImg.split(',')[1];
+  var mediaType=uploadedImg.split(';')[0].split(':')[1];
+
+  // Show step 4 with loading state
   document.getElementById('rsl').textContent=scene;
   fmGo(4);
   document.getElementById('aiImageResult').style.display='none';
-  document.getElementById('fallbackResult').style.display='flex';
-  document.getElementById('aiCaption').textContent='"Nuestra familia viviendo la magia de Disney en '+scene+'" 🏰✨';
-  confetti();
-  // Anthropic Vision API — describe la foto y crea un caption mágico
+  document.getElementById('fallbackResult').style.display='none';
+  document.getElementById('aiResultWrap').innerHTML += '<div id="falLoading" style="text-align:center;padding:2rem;"><div style="font-size:48px;animation:float 2s ease-in-out infinite;display:block;margin-bottom:1rem;">🎨</div><p style="font-family:Pacifico,cursive;font-size:18px;color:white;margin-bottom:.5rem;">¡Generando tu foto mágica!</p><p style="font-size:12px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:1.5rem;">La IA está creando tu imagen personalizada en Disney…</p><div style="width:100%;background:rgba(255,255,255,.08);border-radius:50px;height:7px;overflow:hidden;"><div id="falBar" style="height:100%;border-radius:50px;background:linear-gradient(90deg,#F59E0B,#EC4899);width:0%;transition:width .5s;"></div></div></div>';
+
+  // Animate progress bar
+  var barEl=document.getElementById('falBar');
+  var prog=0;
+  var barIv=setInterval(function(){
+    prog=Math.min(prog+2,90);
+    if(barEl)barEl.style.width=prog+'%';
+  },300);
+
   try{
-    var imgData=uploadedImg.split(',')[1];
-    var mediaType=uploadedImg.split(';')[0].split(':')[1];
-    var resp=await fetch('/.netlify/functions/ai',{
+    // 1. fal.ai generates the real image
+    var falResp=await fetch('/.netlify/functions/fal',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({imageBase64:imgData,mediaType:mediaType,scene:scene})
+    });
+    var falData=await falResp.json();
+
+    clearInterval(barIv);
+    var loadingEl=document.getElementById('falLoading');
+    if(loadingEl)loadingEl.remove();
+
+    if(falData.imageUrl){
+      // Show real generated image
+      document.getElementById('aiGenImg').src=falData.imageUrl;
+      document.getElementById('aiImageResult').style.display='block';
+      document.getElementById('fallbackResult').style.display='none';
+    } else {
+      // Fallback to character bubbles
+      document.getElementById('aiImageResult').style.display='none';
+      document.getElementById('fallbackResult').style.display='flex';
+    }
+
+    // 2. Anthropic generates magic caption
+    var captionResp=await fetch('/.netlify/functions/ai',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:300,
+        model:'claude-sonnet-4-20250514',max_tokens:150,
         messages:[{role:'user',content:[
           {type:'image',source:{type:'base64',media_type:mediaType,data:imgData}},
-          {type:'text',text:'Esta es una foto familiar que va a aparecer junto a Mickey Mouse, Minnie Mouse, Donald Duck y Goofy en el escenario: "'+scene+'" de Disney World. Escribe UN caption mágico y emotivo en español, máximo 20 palabras, entre comillas, que capture la emoción de esta familia en Disney. Solo el caption, nada más.'}
+          {type:'text',text:'Esta familia acaba de generar una foto mágica junto a Mickey Mouse, Minnie Mouse, Donald Duck y Goofy en "'+scene+'" de Disney World. Escribe UN caption viral en español para compartir en redes sociales, máximo 15 palabras, emocionante y con emojis, que diga algo como "¡Así serán mis próximas vacaciones!" Incluye @alebrijesvacations al final. Solo el caption.'}
         ]}]
       })
     });
-    var data=await resp.json();
-    if(data.content&&data.content[0]){
-      document.getElementById('aiCaption').textContent=data.content[0].text+' 🏰✨';
+    var captionData=await captionResp.json();
+    if(captionData.content&&captionData.content[0]){
+      document.getElementById('aiCaption').textContent=captionData.content[0].text;
     }
-  }catch(e){console.log('AI caption fallback',e);}
+
+    confetti();
+
+  }catch(e){
+    clearInterval(barIv);
+    var loadingEl=document.getElementById('falLoading');
+    if(loadingEl)loadingEl.remove();
+    document.getElementById('aiImageResult').style.display='none';
+    document.getElementById('fallbackResult').style.display='flex';
+    document.getElementById('aiCaption').textContent='"¡Así serán mis próximas vacaciones en Disney!" 🏰✨ @alebrijesvacations';
+    confetti();
+    console.log('fal.ai error:',e);
+  }
 }
 
 function showResult(){
@@ -827,14 +872,45 @@ function showResult(){
   fmGo(4);confetti();
 }
 
+function downloadImg(){
+  var genImg=document.getElementById('aiGenImg');
+  if(genImg&&genImg.src&&genImg.style.display!=='none'){
+    fetch(genImg.src).then(function(r){return r.blob();}).then(function(blob){
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+      a.download='mi-foto-magica-disney.jpg';a.click();
+    });
+  } else {
+    alert('Primero sube tu foto para generar la imagen mágica.');
+  }
+}
 function confetti(){
   var c=document.getElementById('aiResultWrap');c.style.position='relative';
   for(var i=0;i<18;i++){var d=document.createElement('div');d.style.cssText='position:absolute;width:'+(5+Math.random()*6)+'px;height:'+(5+Math.random()*6)+'px;border-radius:2px;background:'+clrs[Math.floor(Math.random()*5)]+';left:'+Math.random()*100+'%;top:0;animation:conffall '+(1+Math.random())+'s '+(Math.random()*.4)+'s ease-in forwards;pointer-events:none;z-index:10;';c.appendChild(d);setTimeout(function(x){if(x.parentNode)x.parentNode.removeChild(x);},2500,d);}
 }
 
 function shareResult(){
-  if(navigator.share){navigator.share({title:'Mi foto mágica con Mickey — Alebrijes Vacations',text:'¡Mira cómo quedó nuestra foto mágica con Mickey y Minnie! 🏰✨',url:window.location.href});}
-  else{navigator.clipboard&&navigator.clipboard.writeText(window.location.href).then(function(){alert('¡Link copiado!');});}
+  var caption=document.getElementById('aiCaption').textContent;
+  var shareText=caption+' — Planea tu viaje en alebrijesvacations.com';
+  // Try to share generated image
+  var genImg=document.getElementById('aiGenImg');
+  if(genImg&&genImg.src&&genImg.src!==window.location.href){
+    fetch(genImg.src).then(function(r){return r.blob();}).then(function(blob){
+      var file=new File([blob],'mi-foto-magica-disney.jpg',{type:'image/jpeg'});
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:'¡Mis próximas vacaciones en Disney! 🏰✨',text:shareText});
+      } else if(navigator.share){
+        navigator.share({title:'¡Mis próximas vacaciones en Disney! 🏰✨',text:shareText,url:window.location.href});
+      } else {
+        // Download image
+        var a=document.createElement('a');a.href=genImg.src;a.download='mi-foto-magica-disney.jpg';a.click();
+      }
+    }).catch(function(){
+      if(navigator.share){navigator.share({title:'¡Mis próximas vacaciones en Disney! 🏰✨',text:shareText,url:window.location.href});}
+    });
+  } else {
+    if(navigator.share){navigator.share({title:'¡Mis próximas vacaciones en Disney! 🏰✨',text:shareText,url:window.location.href});}
+    else{navigator.clipboard&&navigator.clipboard.writeText(shareText+' '+window.location.href).then(function(){alert('¡Texto copiado para compartir!');});}
+  }
 }
 
 // ===== TIPS =====
