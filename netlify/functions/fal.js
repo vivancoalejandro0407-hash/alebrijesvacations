@@ -5,8 +5,17 @@ exports.handler = async function(event) {
     const body = JSON.parse(event.body);
     const { imageBase64, mediaType, scene } = body;
 
-    // Use flux-kontext which is best for image editing/compositing
-    const prompt = `Take the people from this photo and place them inside ${scene} at Disney World. They should be standing together smiling, surrounded by Mickey Mouse, Minnie Mouse, Donald Duck and Goofy. Disney World park setting, magical atmosphere, colorful balloons and castle in background, professional photography, bright cheerful lighting.`;
+    const sceneDescriptions = {
+      'Frente al Castillo de Cinderella': 'in front of Cinderella Castle at Magic Kingdom Disney World, with the iconic pink and blue castle behind them, colorful flags, green trees, blue sky',
+      'Show de fuegos artificiales': 'at Magic Kingdom Disney World watching fireworks, colorful fireworks exploding in the night sky above Cinderella Castle, crowds of happy people',
+      'Main Street de noche': 'on Main Street USA at Disney World at night, colorful lights and decorations, Disney shops and buildings on both sides, festive atmosphere',
+      'Animal Kingdom': 'at Animal Kingdom Disney World, with the Tree of Life in the background, lush tropical vegetation, Disney park atmosphere',
+      'Hollywood Studios': 'at Hollywood Studios Disney World, with the Chinese Theatre in the background, Hollywood Boulevard, Disney park atmosphere'
+    };
+
+    const sceneDesc = sceneDescriptions[scene] || 'at Disney World Magic Kingdom, with Cinderella Castle in the background';
+
+    const prompt = `Family vacation photo at Disney World. The family from the reference photo is now ${sceneDesc}. Mickey Mouse and Minnie Mouse are posing with them. Everyone is smiling and happy. Professional Disney park photography, bright colors, magical atmosphere, high quality JPEG photo.`;
 
     const falResp = await fetch('https://fal.run/fal-ai/flux-kontext-pro', {
       method: 'POST',
@@ -19,19 +28,18 @@ exports.handler = async function(event) {
         image_url: `data:${mediaType};base64,${imageBase64}`,
         num_images: 1,
         output_format: 'jpeg',
-        guidance_scale: 4.5,
-        num_inference_steps: 30
+        guidance_scale: 5,
+        num_inference_steps: 35
       })
     });
 
     const data = await falResp.json();
-    console.log('fal response:', JSON.stringify(data).substring(0,300));
+    console.log('fal status:', falResp.status, 'keys:', Object.keys(data));
 
     if(!data.images || !data.images[0]) {
-      return {statusCode:500, body: JSON.stringify({error:'No image generated', detail: data})};
+      return {statusCode:500, body: JSON.stringify({error:'No image', detail: data})};
     }
 
-    // Fetch image and return as base64 to avoid CORS
     const imgUrl = data.images[0].url;
     const imgResp = await fetch(imgUrl);
     const imgBuffer = await imgResp.arrayBuffer();
