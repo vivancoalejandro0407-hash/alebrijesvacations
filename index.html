@@ -840,10 +840,7 @@ async function callAnthropicAI(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',max_tokens:150,
-        messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:mediaType,data:imgData}},
-          {type:'text',text:'Escribe UN caption viral en español para compartir en redes sociales sobre unas vacaciones familiares en Disney World en el escenario "'+scene+'". Máximo 15 palabras, muy emocionante con emojis, que transmita ilusión y diga algo como \"¡Así serán mis próximas vacaciones en Disney!\". Incluye @alebrijesvacations al final. Solo escribe el caption, nada más.'}
-        ]}]
+        messages:[{role:'user',content:'Escribe UN caption viral en español para Instagram sobre vacaciones familiares en Disney World en '+scene+'. Máximo 15 palabras, muy emocionante con emojis, empezando con \"¡Así serán mis próximas vacaciones!\" Incluye @alebrijesvacations al final. Solo el caption.'}]
       })
     });
     var captionData=await captionResp.json();
