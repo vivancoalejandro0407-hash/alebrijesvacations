@@ -812,7 +812,7 @@ async function callAnthropicAI(){
 
   try{
     // 1. fal.ai generates the real image
-    var falResp=await fetch('/.netlify/functions/fal',{
+    var falResp=await fetch('/.netlify/functions/gemini',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({imageBase64:imgData,mediaType:mediaType,scene:scene})
@@ -823,7 +823,7 @@ async function callAnthropicAI(){
     var loadingEl=document.getElementById('falLoading');
     if(loadingEl)loadingEl.remove();
 
-    if(falData.imageBase64){
+    if(falData&&falData.imageBase64){
       // Show real generated image
       document.getElementById('aiGenImg').src=falData.imageBase64;
       document.getElementById('aiImageResult').style.display='block';
