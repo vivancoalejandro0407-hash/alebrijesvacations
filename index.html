@@ -648,142 +648,102 @@ footer{background:linear-gradient(135deg,#060D1F,#0d1a3a);border-top:1px solid r
 </section>
 
 <!-- DIARIO -->
-<section id="diario" style="padding-top:2rem;">
+<section id="collage" style="padding-top:2rem;">
 <div class="max-wrap">
 <div class="sec-wrap">
-  <span class="sec-eye" style="color:var(--purple);">✦ Recuerdos para siempre</span>
-  <h2 class="sec-h">El <span style="background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Diario</span> Mágico<br>de su viaje</h2>
-  <p class="sec-s">Suben sus fotos cada día y la IA escribe su historia. Un recuerdo que van a atesorar siempre.</p>
+  <span class="sec-eye" style="color:var(--pink);">✦ Comparte tu magia</span>
+  <h2 class="sec-h">Collage <span style="background:linear-gradient(135deg,var(--pink),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Mágico</span></h2>
+  <p class="sec-s">Sube tus fotos del viaje y crea un collage con marco Disney para compartir en redes. Sin IA, sin esperas — listo en segundos.</p>
 </div>
 <div style="padding:0 1.25rem;">
 
 <style>
-.d-days-nav{display:flex;gap:6px;margin-bottom:1.25rem;}
-.d-day-btn{flex:1;border-radius:var(--border-radius-md,12px);padding:.5rem;text-align:center;cursor:pointer;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:all .2s;}
-.d-day-btn.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);}
-.d-day-btn .dn{font-size:12px;font-weight:800;color:white;}
-.d-day-btn .dl{font-size:9px;color:rgba(255,255,255,.35);margin-top:1px;}
-.d-day-btn.done .dl{color:var(--mint);}
-.d-park-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:1.1rem;}
-.d-park-scroll::-webkit-scrollbar{display:none;}
-.d-park-pill{flex-shrink:0;border-radius:50px;padding:5px 12px;font-size:10px;font-weight:800;cursor:pointer;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);background:transparent;font-family:Nunito,sans-serif;white-space:nowrap;transition:all .18s;}
-.d-park-pill.active{border-color:rgba(167,139,250,.5);color:var(--purple);background:rgba(167,139,250,.1);}
-.d-photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:1.1rem;}
-.d-photo-slot{aspect-ratio:1;border-radius:12px;border:1.5px dashed rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;background:rgba(255,255,255,.03);transition:all .18s;overflow:hidden;}
-.d-photo-slot:hover{border-color:rgba(167,139,250,.4);}
-.d-photo-slot.filled{border-style:solid;border-color:rgba(255,255,255,.1);padding:0;}
-.d-photo-slot.filled img{width:100%;height:100%;object-fit:cover;}
-.d-gen-btn{width:100%;border:none;border-radius:14px;padding:.85rem;background:linear-gradient(135deg,var(--purple),var(--pink));color:white;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:1.1rem;position:relative;overflow:hidden;}
-.d-gen-btn:disabled{opacity:.4;cursor:default;}
-.d-gen-btn::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(255,255,255,.1),transparent);animation:shimmer 2s linear infinite;}
-.d-loading{text-align:center;padding:1.5rem;display:none;}
-.d-dots{display:flex;justify-content:center;gap:6px;margin-bottom:.6rem;}
-.d-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:d-bounce 1.2s infinite;}
-.d-dot:nth-child(2){animation-delay:.2s;}.d-dot:nth-child(3){animation-delay:.4s;}
-@keyframes d-bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-8px);}}
-.d-entry{display:none;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;margin-bottom:1rem;}
-.d-entry-hdr{padding:.75rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;}
-.d-entry-park{font-size:11px;font-weight:800;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;}
-.d-entry-badge{font-size:9px;padding:2px 8px;border-radius:20px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);color:var(--mint);font-weight:800;letter-spacing:1px;text-transform:uppercase;}
-.d-entry-photo{width:100%;aspect-ratio:16/9;object-fit:cover;display:none;}
-.d-entry-body{padding:1rem;}
-.d-headline{font-family:Lora,Georgia,serif;font-style:italic;font-size:16px;color:white;line-height:1.35;margin-bottom:.75rem;}
-.d-text{font-family:Lora,Georgia,serif;font-style:italic;font-size:13px;color:rgba(255,255,255,.55);line-height:1.85;border-left:2px solid rgba(167,139,250,.4);padding-left:.85rem;}
-.d-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;display:none;}
-.d-action{border-radius:12px;padding:.75rem;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:white;font-size:11px;font-weight:800;font-family:Nunito,sans-serif;}
-.d-action:hover{background:rgba(255,255,255,.08);}
-.d-ig{display:none;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;margin-bottom:1rem;}
-.d-ig-hdr{padding:.6rem .85rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);}
-.d-ig-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--pink));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:white;}
-.d-ig-user{font-size:12px;font-weight:800;color:white;}
-.d-ig-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:#0d1520;}
-.d-ig-wrap img{width:100%;height:100%;object-fit:cover;}
-.d-ig-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);display:flex;align-items:flex-end;padding:.85rem;}
-.d-ig-text{font-family:Lora,Georgia,serif;font-style:italic;font-size:13px;color:white;line-height:1.4;}
-.d-ig-footer{padding:.75rem .85rem;background:rgba(255,255,255,.03);}
-.d-ig-cap{font-size:11px;color:rgba(255,255,255,.45);line-height:1.6;}
+.cl-frame-scroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:1rem;}
+.cl-frame-scroll::-webkit-scrollbar{display:none;}
+.cl-frame-opt{flex-shrink:0;width:58px;height:58px;border-radius:12px;cursor:pointer;border:2px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;transition:border-color .15s;}
+.cl-frame-opt.sel{border-color:var(--gold);}
+.cl-frame-opt span.lbl{font-size:8px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.5px;text-transform:uppercase;}
+.cl-layout-row{display:flex;gap:8px;margin-bottom:1rem;}
+.cl-layout-opt{flex:1;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);padding:.5rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:border-color .15s;}
+.cl-layout-opt.sel{border-color:var(--sky);}
+.cl-lo-preview{display:flex;gap:2px;height:28px;}
+.cl-lo-block{background:rgba(255,255,255,.15);border-radius:3px;}
+.cl-layout-opt span{font-size:9px;font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px;}
+.cl-canvas-wrap{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.1);margin-bottom:1rem;}
+.cl-canvas-wrap canvas{display:block;width:100%;}
+.cl-name-field{margin-bottom:1rem;}
+.cl-name-field label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:5px;}
+.cl-name-field input{width:100%;font-size:14px;font-weight:700;padding:9px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:white;font-family:Nunito,sans-serif;}
+.cl-name-field input::placeholder{color:rgba(255,255,255,.2);}
+.cl-slots-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
+.cl-photo-slot{aspect-ratio:1;border-radius:12px;border:1.5px dashed rgba(255,255,255,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;background:rgba(255,255,255,.03);transition:border-color .15s;overflow:hidden;position:relative;}
+.cl-photo-slot:hover{border-color:rgba(255,255,255,.3);}
+.cl-photo-slot.filled{border-style:solid;border-color:rgba(255,255,255,.1);padding:0;}
+.cl-photo-slot.filled img{width:100%;height:100%;object-fit:cover;border-radius:11px;}
+.cl-slot-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(236,72,153,.9);border:none;cursor:pointer;font-size:10px;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.cl-btn-gen{width:100%;border:none;border-radius:14px;padding:.9rem;background:linear-gradient(135deg,var(--pink),var(--gold));color:white;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:.75rem;position:relative;overflow:hidden;animation:wand 2s ease-in-out infinite;}
+.cl-btn-dl{width:100%;border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:.75rem;background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:.75rem;}
+.cl-lbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.6rem;display:block;}
 </style>
 
-<input type="file" id="dFileInput" accept="image/*" onchange="dHandlePhoto(this)" style="display:none;"/>
+<input type="file" id="clInput" accept="image/*" style="display:none;" onchange="clHandlePhoto(this)"/>
 
-<div class="d-days-nav">
-  <div class="d-day-btn done"><div class="dn">Día 1</div><div class="dl">✓ Listo</div></div>
-  <div class="d-day-btn" id="dBtn2" onclick="dSetDay(2)"><div class="dn">Día 2</div><div class="dl">Hoy</div></div>
-  <div class="d-day-btn" id="dBtn3" onclick="dSetDay(3)"><div class="dn">Día 3</div><div class="dl">Pendiente</div></div>
-  <div class="d-day-btn" id="dBtn4" onclick="dSetDay(4)"><div class="dn">Día 4</div><div class="dl">Pendiente</div></div>
-</div>
-
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
-  <p style="font-size:14px;font-weight:800;color:white;" id="dDayTitle">Día 2 de su viaje</p>
-</div>
-
-<div class="d-park-scroll">
-  <div class="d-park-pill active" onclick="dSelectPark(this,'EPCOT')">🌍 EPCOT</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Magic Kingdom')">🏰 Magic Kingdom</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Hollywood Studios')">🎬 Hollywood Studios</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Animal Kingdom')">🦁 Animal Kingdom</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Universal Studios Florida')">🎢 Universal Studios</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Islands of Adventure')">🏝️ Islands of Adventure</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Epic Universe')">🚀 Epic Universe</div>
-  <div class="d-park-pill" onclick="dSelectPark(this,'Disney Springs')">🛍️ Disney Springs</div>
-</div>
-
-<div class="d-photo-grid">
-  <div class="d-photo-slot" id="dSlot0" onclick="dTriggerUpload(0)">
-    <span style="font-size:22px;">📷</span>
-    <span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;">Foto 1</span>
+<span class="cl-lbl">Elige tu marco</span>
+<div class="cl-frame-scroll">
+  <div class="cl-frame-opt sel" onclick="clSelFrame(this,'gold')" style="background:linear-gradient(135deg,#1a1200,#2a1f00);">
+    <span style="font-size:16px;">👑</span><span class="lbl">Dorado</span>
   </div>
-  <div class="d-photo-slot" id="dSlot1" onclick="dTriggerUpload(1)">
-    <span style="font-size:22px;">📷</span>
-    <span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;">Foto 2</span>
+  <div class="cl-frame-opt" onclick="clSelFrame(this,'night')" style="background:linear-gradient(135deg,#060D1F,#1B2A6B);">
+    <span style="font-size:16px;">🌙</span><span class="lbl">Noche</span>
   </div>
-  <div class="d-photo-slot" id="dSlot2" onclick="dTriggerUpload(2)">
-    <span style="font-size:22px;">➕</span>
-    <span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;">Agregar</span>
+  <div class="cl-frame-opt" onclick="clSelFrame(this,'minnie')" style="background:linear-gradient(135deg,#2a0010,#6B0030);">
+    <span style="font-size:16px;">🎀</span><span class="lbl">Minnie</span>
+  </div>
+  <div class="cl-frame-opt" onclick="clSelFrame(this,'universal')" style="background:linear-gradient(135deg,#001a2a,#004080);">
+    <span style="font-size:16px;">🎢</span><span class="lbl">Universal</span>
   </div>
 </div>
 
-<button class="d-gen-btn" id="dGenBtn" onclick="dGenerate()">✨ &nbsp;Escribir la entrada del día con IA</button>
-
-<div class="d-loading" id="dLoading">
-  <div class="d-dots"><div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div></div>
-  <p style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">La IA está escribiendo su historia...</p>
-  <p style="font-size:11px;color:rgba(255,255,255,.3);margin-top:4px;" id="dLoadMsg">Analizando sus fotos del día</p>
-</div>
-
-<div class="d-entry" id="dEntry">
-  <div class="d-entry-hdr">
-    <span class="d-entry-park" id="dEntryPark">EPCOT — DÍA 2</span>
-    <span class="d-entry-badge">✦ Escrito por IA</span>
+<span class="cl-lbl">Elige tu layout</span>
+<div class="cl-layout-row">
+  <div class="cl-layout-opt sel" onclick="clSelLayout(this,1)">
+    <div class="cl-lo-preview"><div class="cl-lo-block" style="width:28px;"></div><div style="display:flex;flex-direction:column;gap:2px;"><div class="cl-lo-block" style="width:14px;height:13px;"></div><div class="cl-lo-block" style="width:14px;height:13px;"></div></div></div>
+    <span>Clásico</span>
   </div>
-  <img id="dEntryPhoto" class="d-entry-photo" src="" alt="Foto del día"/>
-  <div class="d-entry-body">
-    <div class="d-headline" id="dHeadline"></div>
-    <div class="d-text" id="dText"></div>
+  <div class="cl-layout-opt" onclick="clSelLayout(this,2)">
+    <div class="cl-lo-preview"><div style="display:flex;flex-direction:column;gap:2px;width:44px;"><div class="cl-lo-block" style="width:44px;height:13px;"></div><div style="display:flex;gap:2px;"><div class="cl-lo-block" style="width:21px;height:13px;"></div><div class="cl-lo-block" style="width:21px;height:13px;"></div></div></div></div>
+    <span>Panorama</span>
+  </div>
+  <div class="cl-layout-opt" onclick="clSelLayout(this,3)">
+    <div class="cl-lo-preview"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;width:44px;"><div class="cl-lo-block" style="height:13px;"></div><div class="cl-lo-block" style="height:13px;"></div><div class="cl-lo-block" style="height:13px;"></div><div class="cl-lo-block" style="height:13px;"></div></div></div>
+    <span>Cuadrícula</span>
   </div>
 </div>
 
-<div class="d-actions" id="dActions">
-  <div class="d-action" onclick="dShowIG()">📱 &nbsp;Para Instagram</div>
-  <div class="d-action" onclick="dDownload()">⬇️ &nbsp;Descargar PDF</div>
+<div class="cl-name-field">
+  <label>Nombre de tu familia y año</label>
+  <input type="text" id="clFamilyName" placeholder="Familia González • Disney World 2025" oninput="clRender()"/>
 </div>
 
-<div class="d-ig" id="dIG">
-  <div class="d-ig-hdr">
-    <div class="d-ig-av">AV</div>
-    <span class="d-ig-user">@alebrijesvacations</span>
-  </div>
-  <div class="d-ig-wrap">
-    <img id="dIGPhoto" src="" alt=""/>
-    <div class="d-ig-overlay"><div class="d-ig-text" id="dIGText"></div></div>
-  </div>
-  <div class="d-ig-footer"><div class="d-ig-cap" id="dIGCap"></div></div>
+<span class="cl-lbl">Tus fotos del viaje</span>
+<div class="cl-slots-grid">
+  <div class="cl-photo-slot" id="clSlot0" onclick="clTrigger(0)"><span style="font-size:24px;">📷</span><span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;">Foto 1</span></div>
+  <div class="cl-photo-slot" id="clSlot1" onclick="clTrigger(1)"><span style="font-size:24px;">📷</span><span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;">Foto 2</span></div>
+  <div class="cl-photo-slot" id="clSlot2" onclick="clTrigger(2)"><span style="font-size:24px;">📷</span><span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;">Foto 3</span></div>
+  <div class="cl-photo-slot" id="clSlot3" onclick="clTrigger(3)"><span style="font-size:24px;">➕</span><span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;">Foto 4</span></div>
 </div>
+
+<div class="cl-canvas-wrap">
+  <canvas id="clCanvas" width="800" height="800"></canvas>
+</div>
+
+<button class="cl-btn-gen" onclick="clRender()">✨ &nbsp;Generar collage</button>
+<button class="cl-btn-dl" onclick="clDownload()">⬇️ &nbsp;Descargar para compartir</button>
 
 <div class="section-cta" style="margin-bottom:0;">
-  <h3 class="scta-title">Su historia merece<br>ser contada ✨</h3>
-  <p class="scta-sub">El diario está incluido cuando Mónica planea su experiencia.</p>
-  <button class="btn-main" onclick="openWA()">📔 &nbsp;Quiero mi diario del viaje</button>
+  <h3 class="scta-title">¿Te gustó la magia? ✨</h3>
+  <p class="scta-sub">Mónica planea el viaje para que tengas fotos así de épicas de verdad.</p>
+  <button class="btn-main" onclick="openWA()">🏰 &nbsp;¡Planea mi viaje con Mónica!</button>
 </div>
 
 </div>
@@ -1436,6 +1396,121 @@ function fzEnviar(){
   window.open('https://wa.me/14075385081?text='+encodeURIComponent(msg),'_blank');
 }
 
+
+// ===== COLLAGE MAGICO =====
+var clPhotos=[], clCurrentSlot=0, clCurrentFrame='gold', clCurrentLayout=1;
+var clFrames={
+  gold:{bg:'#0d0800',border:'#F59E0B',border2:'#FDE68A',title:'#F59E0B',text:'#FDE68A'},
+  night:{bg:'#060D1F',border:'#38BDF8',border2:'#A78BFA',title:'#38BDF8',text:'#A78BFA'},
+  minnie:{bg:'#1a0010',border:'#EC4899',border2:'#F9A8D4',title:'#EC4899',text:'#F9A8D4'},
+  universal:{bg:'#001020',border:'#38BDF8',border2:'#ffffff',title:'#38BDF8',text:'#ffffff'}
+};
+
+function clSelFrame(el,f){
+  document.querySelectorAll('.cl-frame-opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');clCurrentFrame=f;clRender();
+}
+function clSelLayout(el,l){
+  document.querySelectorAll('.cl-layout-opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');clCurrentLayout=l;clRender();
+}
+function clTrigger(idx){
+  clCurrentSlot=idx;
+  var inp=document.getElementById('clInput');
+  inp.dataset.slot=idx;inp.value='';inp.click();
+}
+function clHandlePhoto(input){
+  if(!input.files||!input.files[0])return;
+  var idx=parseInt(input.dataset.slot);
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){clPhotos[idx]=img;clRenderSlot(idx);clRender();};
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function clRenderSlot(idx){
+  var sl=document.getElementById('clSlot'+idx);
+  if(clPhotos[idx]){
+    sl.className='cl-photo-slot filled';
+    sl.innerHTML='<img src="'+clPhotos[idx].src+'" alt="foto"/>'
+      +'<button class="cl-slot-remove" onclick="event.stopPropagation();clRemove('+idx+')">✕</button>';
+    sl.onclick=null;
+  } else {
+    sl.className='cl-photo-slot';
+    sl.innerHTML='<span style="font-size:24px;">'+(idx<3?'📷':'➕')+'</span><span style="font-size:9px;font-weight:800;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;">Foto '+(idx+1)+'</span>';
+    sl.onclick=(function(i){return function(){clTrigger(i);};})(idx);
+  }
+}
+function clRemove(idx){clPhotos[idx]=null;clRenderSlot(idx);clRender();}
+
+function clDrawStar(ctx,cx,cy,r,color){
+  ctx.save();ctx.fillStyle=color;ctx.beginPath();
+  for(var i=0;i<5;i++){var a=i*Math.PI*2/5-Math.PI/2,ia=a+Math.PI/5;
+    if(i===0)ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+    else ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+    ctx.lineTo(cx+r*.4*Math.cos(ia),cy+r*.4*Math.sin(ia));}
+  ctx.closePath();ctx.fill();ctx.restore();
+}
+function clRoundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+}
+function clDrawPhoto(ctx,img,x,y,w,h,f){
+  ctx.save();
+  clRoundRect(ctx,x,y,w,h,12);
+  if(img){ctx.clip();var sc=Math.max(w/img.width,h/img.height),sw=img.width*sc,sh=img.height*sc;ctx.drawImage(img,x+(w-sw)/2,y+(h-sh)/2,sw,sh);}
+  else{ctx.fillStyle='rgba(255,255,255,.05)';ctx.fill();ctx.strokeStyle=f.border;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);clRoundRect(ctx,x,y,w,h,12);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=f.text;ctx.globalAlpha=.4;ctx.font='400 13px Nunito,sans-serif';ctx.textAlign='center';ctx.fillText('+ Agregar foto',x+w/2,y+h/2+5);ctx.globalAlpha=1;}
+  ctx.restore();
+}
+
+function clRender(){
+  var canvas=document.getElementById('clCanvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var W=800,H=800;canvas.width=W;canvas.height=H;
+  var f=clFrames[clCurrentFrame];
+  ctx.fillStyle=f.bg;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle=f.border;ctx.lineWidth=12;clRoundRect(ctx,6,6,W-12,H-12,24);ctx.stroke();
+  ctx.strokeStyle=f.border2;ctx.lineWidth=3;ctx.setLineDash([12,8]);clRoundRect(ctx,22,22,W-44,H-44,18);ctx.stroke();ctx.setLineDash([]);
+  [[50,50],[W-50,50],[50,H-50],[W-50,H-50]].forEach(function(p){clDrawStar(ctx,p[0],p[1],18,f.border);});
+  [[120,35],[W-120,35],[35,120],[W-35,120],[120,H-35],[W-120,H-35],[35,H-120],[W-35,H-120]].forEach(function(p){ctx.fillStyle=f.border2;ctx.globalAlpha=.5;ctx.beginPath();ctx.arc(p[0],p[1],4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;});
+  ctx.fillStyle=f.border;ctx.globalAlpha=.1;ctx.fillRect(40,40,W-80,90);ctx.globalAlpha=1;
+  ctx.font='500 26px Pacifico,cursive';ctx.fillStyle=f.title;ctx.textAlign='center';ctx.fillText('Alebrijes Vacations',W/2,80);
+  for(var i=0;i<5;i++)clDrawStar(ctx,160+i*100,56,6,f.border2);
+  var pad=40,top=148,photoArea=H-top-120;
+  if(clCurrentLayout===1){
+    var bw=Math.floor((W-pad*2-8)*.55),rw=W-pad*2-bw-8,sh=Math.floor((photoArea-8)/2);
+    clDrawPhoto(ctx,clPhotos[0]||null,pad,top,bw,photoArea,f);
+    clDrawPhoto(ctx,clPhotos[1]||null,pad+bw+8,top,rw,sh,f);
+    clDrawPhoto(ctx,clPhotos[2]||null,pad+bw+8,top+sh+8,rw,sh,f);
+  } else if(clCurrentLayout===2){
+    var th=Math.floor(photoArea*.55),bh=photoArea-th-8,bw2=Math.floor((W-pad*2-8)/2);
+    clDrawPhoto(ctx,clPhotos[0]||null,pad,top,W-pad*2,th,f);
+    clDrawPhoto(ctx,clPhotos[1]||null,pad,top+th+8,bw2,bh,f);
+    clDrawPhoto(ctx,clPhotos[2]||null,pad+bw2+8,top+th+8,bw2,bh,f);
+  } else {
+    var gw=Math.floor((W-pad*2-8)/2),gh=Math.floor((photoArea-8)/2);
+    [[0,0,0],[1,gw+8,0],[2,0,gh+8],[3,gw+8,gh+8]].forEach(function(it){
+      clDrawPhoto(ctx,clPhotos[it[0]]||null,pad+it[1],top+it[2],gw,gh,f);
+    });
+  }
+  ctx.fillStyle=f.border;ctx.globalAlpha=.1;ctx.fillRect(40,H-110,W-80,85);ctx.globalAlpha=1;
+  var nm=document.getElementById('clFamilyName')?document.getElementById('clFamilyName').value||'Familia Gonzalez - Disney World 2025':'';
+  ctx.font='500 20px Pacifico,cursive';ctx.fillStyle=f.title;ctx.textAlign='center';ctx.fillText(nm,W/2,H-78);
+  ctx.font='700 12px Nunito,sans-serif';ctx.fillStyle=f.text;ctx.globalAlpha=.6;ctx.fillText('Alebrijes Vacations by Monica Vivanco - @alebrijesvacations',W/2,H-54);ctx.globalAlpha=1;
+  for(var j=0;j<3;j++)clDrawStar(ctx,W/2-40+j*40,H-38,5,f.border2);
+}
+function clDownload(){
+  clRender();
+  var canvas=document.getElementById('clCanvas');
+  var a=document.createElement('a');a.href=canvas.toDataURL('image/jpeg',.92);
+  a.download='collage-disney-alebrijes.jpg';a.click();
+}
+
 // ===== INIT =====
 
 // ===== DIARIO MAGICO =====
@@ -1462,12 +1537,17 @@ function dResetSlots(){
   for(var i=0;i<3;i++){dPhotos[i]=null;dRenderSlot(i);}
 }
 
-function dTriggerUpload(idx){dCurrentSlot=idx;document.getElementById('dFileInput').click();}
+function dTriggerUpload(idx){
+  dCurrentSlot=idx;
+  var inp=document.getElementById('dFileInput');
+  inp.dataset.slot=idx;
+  inp.click();
+}
 
 function dHandlePhoto(input){
   if(!input.files||!input.files[0])return;
+  var slotIdx=parseInt(input.dataset.slot)||dCurrentSlot;
   var reader=new FileReader();
-  var slotIdx=dCurrentSlot;
   reader.onload=function(e){
     dPhotos[slotIdx]=e.target.result;
     dRenderSlot(slotIdx);
@@ -1497,7 +1577,13 @@ function dRenderSlot(idx){
   }
 }
 
-function dChangeSlot(idx){dCurrentSlot=idx;document.getElementById('dFileInput').click();}
+function dChangeSlot(idx){
+  dCurrentSlot=idx;
+  var inp=document.getElementById('dFileInput');
+  inp.dataset.slot=idx;
+  inp.value='';
+  inp.click();
+}
 function dRemoveSlot(idx){dPhotos[idx]=null;dRenderSlot(idx);}
 
 function dGenerate(){
@@ -1510,10 +1596,32 @@ function dGenerate(){
   var mi=0;
   var iv=setInterval(function(){mi=(mi+1)%dLoadMsgs.length;msgEl.textContent=dLoadMsgs[mi];},1200);
   var parts=[];
-  dPhotos.filter(Boolean).forEach(function(p){
-    parts.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:p.split(',')[1]}});
+  // Compress images before sending to avoid large request
+  var photoPromises=dPhotos.filter(Boolean).map(function(p){
+    return new Promise(function(resolve){
+      var img=new Image();
+      img.onload=function(){
+        var canvas=document.createElement('canvas');
+        var maxW=400,maxH=400;
+        var w=img.width,h=img.height;
+        if(w>maxW){h=h*maxW/w;w=maxW;}
+        if(h>maxH){w=w*maxH/h;h=maxH;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg',0.6).split(',')[1]);
+      };
+      img.src=p;
+    });
   });
-  parts.push({type:'text',text:'Esta familia esta de vacaciones en '+dCurrentPark+' en Orlando, dia '+dCurrentDay+'. Escribe UNA entrada de diario emotiva en espanol. Formato: TITULO: [titulo entre comillas, max 12 palabras] TEXTO: [3-4 oraciones emotivas en primera persona plural con momento gracioso del parque]'});
+  Promise.all(photoPromises).then(function(compressed){
+    compressed.forEach(function(imgData){
+      parts.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:imgData}});
+    });
+    parts.push({type:'text',text:'Esta familia esta de vacaciones en '+dCurrentPark+' en Orlando, dia '+dCurrentDay+'. Mira las fotos y escribe UNA entrada de diario emotiva en espanol en primera persona plural. Formato exacto - TITULO: [frase entre comillas max 10 palabras describiendo el momento] TEXTO: [3 oraciones emotivas sobre lo que se ve en las fotos con detalles especificos]'});
+    dCallAI(parts);
+  });
+}
+function dCallAI(parts){
   fetch('/.netlify/functions/ai',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:parts}]})
@@ -1551,6 +1659,40 @@ function dGenerate(){
   });
 }
 
+function dEditEntry(){
+  var hl=document.getElementById('dHeadline');
+  var tx=document.getElementById('dText');
+  var isEditing=hl.contentEditable==='true';
+  if(!isEditing){
+    // Enter edit mode
+    hl.contentEditable='true';
+    tx.contentEditable='true';
+    hl.style.border='1px solid rgba(167,139,250,0.4)';
+    hl.style.borderRadius='8px';
+    hl.style.padding='6px';
+    tx.style.border='1px solid rgba(167,139,250,0.4)';
+    tx.style.borderRadius='8px';
+    tx.style.padding='8px';
+    tx.style.lineHeight='1.85';
+    hl.focus();
+    // Change edit button to save
+    var editBtn=document.querySelector('.d-action[onclick="dEditEntry()"]');
+    if(editBtn)editBtn.innerHTML='💾 &nbsp;Guardar';
+  } else {
+    // Save mode
+    hl.contentEditable='false';
+    tx.contentEditable='false';
+    hl.style.border='none';
+    hl.style.padding='';
+    tx.style.border='none';
+    tx.style.padding='';
+    // Update Instagram preview
+    document.getElementById('dIGText').textContent=hl.textContent;
+    document.getElementById('dIGCap').innerHTML='<strong>@alebrijesvacations</strong> '+tx.textContent.substring(0,90)+'... ✨🏰 #DisneyWorld #AlebrijesVacations';
+    var editBtn=document.querySelector('.d-action[onclick="dEditEntry()"]');
+    if(editBtn)editBtn.innerHTML='✏️ &nbsp;Editar';
+  }
+}
 function dShowIG(){
   var ig=document.getElementById('dIG');
   ig.style.display=ig.style.display==='block'?'none':'block';
@@ -1560,7 +1702,7 @@ function dDownload(){
   openWA();
 }
 
-window.addEventListener('load',function(){
+window.addEventListener('load',function(){clRender();
   initImgs();
   initStars();
   // API key segura en Netlify → Site Settings → Environment Variables → ANTHROPIC_KEY
